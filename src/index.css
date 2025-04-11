@@ -445,3 +445,64 @@ form button {
   border: 1px solid #ccc;
   margin-right: 10px;
 }
+/* Dark Theme Form Container */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 16px;
+  background-color: #121212; /* Dark background */
+  box-sizing: border-box;
+}
+
+/* Form Box */
+.form-box {
+  background: #1f1f1f; /* Slightly lighter dark */
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  color: #ffffff; /* Text color */
+}
+
+/* Input Fields */
+.form-box input[type="text"],
+.form-box input[type="tel"],
+.form-box input[type="number"],
+.form-box input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: #2b2b2b;
+  color: #ffffff;
+  border: 1px solid #444;
+}
+
+/* Button */
+.form-box button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 12px;
+  background-color: #00b894; /* Teal or your preferred accent */
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-box button:hover {
+  background-color: #019270;
+}
+
+/* Optional: QR Image Styling */
+.form-box img {
+  max-width: 100%;
+  border-radius: 8px;
+}
