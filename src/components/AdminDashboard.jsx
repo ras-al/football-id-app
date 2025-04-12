@@ -183,31 +183,48 @@ export default function AdminDashboard({ setLoggedIn }) {
       </div>
 
       {selectedUser && (
-        <div className="selected-user-preview">
-          <h3>{selectedUser.name}'s Details</h3>
-          <div className="football-id-card">
-            <div className="card-left">
-              <img src={selectedUser.image} alt="User" className="id-photo" />
-            </div>
-            <div className="card-right">
-              <h3>Football ID Pass</h3>
-              <p><strong>Name:</strong> {selectedUser.name}</p>
-              <p><strong>Phone:</strong> {selectedUser.phone}</p>
-              <p><strong>Age:</strong> {selectedUser.age}</p>
-              <p><strong>ID:</strong> {selectedUser.regId}</p>
-              <h2>Present by Mass Kannur</h2>
-            </div>
-          </div>
-          <div style={{ marginTop: "20px" }}>
-            <h4>Payment Screenshot:</h4>
-            {selectedUser.paymentSS ? (
-              <img src={selectedUser.paymentSS} alt="Payment SS" style={{ maxWidth: "200px" }} />
-            ) : (
-              <p>No screenshot uploaded.</p>
-            )}
-          </div>
-        </div>
+  <div className="selected-user-preview">
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <h3>{selectedUser.name}'s Details</h3>
+      <button
+        onClick={() => setSelectedUser(null)}
+        style={{
+          background: "#ccc",
+          color: "#000",
+          border: "none",
+          borderRadius: "4px",
+          padding: "5px 10px",
+          cursor: "pointer",
+          fontWeight: "bold"
+        }}
+      >
+        Close ✕
+      </button>
+    </div>
+    <div className="football-id-card">
+      <div className="card-left">
+        <img src={selectedUser.image} alt="User" className="id-photo" />
+      </div>
+      <div className="card-right">
+        <h3>Football ID Pass</h3>
+        <p><strong>Name:</strong> {selectedUser.name}</p>
+        <p><strong>Phone:</strong> {selectedUser.phone}</p>
+        <p><strong>Age:</strong> {selectedUser.age}</p>
+        <p><strong>ID:</strong> {selectedUser.regId}</p>
+        <h2>Present by Mass Kannur</h2>
+      </div>
+    </div>
+    <div style={{ marginTop: "20px" }}>
+      <h4>Payment Screenshot:</h4>
+      {selectedUser.paymentSS ? (
+        <img src={selectedUser.paymentSS} alt="Payment SS" style={{ maxWidth: "200px" }} />
+      ) : (
+        <p>No screenshot uploaded.</p>
       )}
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
