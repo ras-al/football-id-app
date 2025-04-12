@@ -42,6 +42,16 @@ export default function AdminDashboard({ onLogout }) {
       console.error("Logout failed:", error.message);
     }
   };
+  const handleLogin = async () => {
+    try {
+      // Authentication logic (e.g., Firebase sign-in)
+      await signInWithEmailAndPassword(auth, email, password);
+      onLogin(); // This will set `loggedIn` to true in App.jsx
+    } catch (error) {
+      console.error("Login failed:", error.message);
+    }
+  };
+  
 
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
