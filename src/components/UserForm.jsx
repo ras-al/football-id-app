@@ -21,20 +21,15 @@ export default function UserForm() {
   }, []);
 
   const generateUniqueRegId = async () => {
-    let regNumber;
-    let isUnique = false;
+    const snapshot = await getDocs(collection(db, "users"));
+    const existingCodes = new Set(snapshot.docs.map(doc => doc.data().regId));
   
-    // Keep generating a new random number until it is unique
-    while (!isUnique) {
-      // Generate a random six-digit number
-      regNumber = Math.floor(100000 + Math.random() * 900000).toString();
+    let newCode;
+    do {
+      newCode = String(Math.floor(100000 + Math.random() * 900000)); // Generates 6-digit number
+    } while (existingCodes.has(newCode));
   
-      // Check if this number already exists in the database
-      const snapshot = await getDocs(collection(db, "users"));
-      isUnique = !snapshot.docs.some(doc => doc.data().regId === regNumber);
-    }
-  
-    setRegId(regNumber);
+    setRegId(newCode);
   };
   
 
@@ -85,19 +80,34 @@ export default function UserForm() {
     html2canvas(card).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({
-        orientation: "Potrait",
+        orientation: "potrait",
         unit: "mm",
-        format: [85.6,54],
+        format: [54, 85.6],
       });
       pdf.addImage(imgData, "PNG", 0, 0, 54, 85.6);
       pdf.save(`${name}_card.pdf`);
+  
+      // Reset form after download
+      setTimeout(() => {
+        setName("");
+        setPhone("");
+        setAge("");
+        setImage(null);
+        setBase64("");
+        setPaymentSS(null);
+        setPaymentBase64("");
+        setRegId("");
+        setStep(1);
+        generateUniqueRegId();
+      }, 500);
     });
   };
+  
 
   return (
     <div className="form-container">
       <div className="form-box">
-        <h2>Event Registration</h2>
+        <h2>Player Registration</h2>
 
         {step === 1 && (
           <form onSubmit={(e) => { e.preventDefault(); setStep(2); }}>

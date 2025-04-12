@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { auth } from "../firebaseConfig"; // ✅ FIXED PATH
 
 export default function AdminLogin({ onLogin }) {
   const [email, setEmail] = useState("");
@@ -34,9 +34,7 @@ export default function AdminLogin({ onLogin }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         /><br /><br />
-        <div style={{ textAlign: "center" }}>
-          <button type="submit">Login</button>
-        </div>
+        <button type="submit">Login</button>
       </form>
     </div>
   );

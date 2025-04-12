@@ -14,7 +14,7 @@ import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import "../index.css";
 
-export default function AdminDashboard({ onLogout }) {
+export default function AdminDashboard({ setLoggedIn }) {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,21 +37,11 @@ export default function AdminDashboard({ onLogout }) {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      onLogout(); // 👈 This sets loggedIn to false in App.jsx
+      setLoggedIn(false); // ✅ Properly logs out
     } catch (error) {
       console.error("Logout failed:", error.message);
     }
   };
-  const handleLogin = async () => {
-    try {
-      // Authentication logic (e.g., Firebase sign-in)
-      await signInWithEmailAndPassword(auth, email, password);
-      onLogin(); // This will set `loggedIn` to true in App.jsx
-    } catch (error) {
-      console.error("Login failed:", error.message);
-    }
-  };
-  
 
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
@@ -113,7 +103,6 @@ export default function AdminDashboard({ onLogout }) {
   return (
     <div className="admin-container">
       <div className="admin-header">
-        
         <h2>Registered Participants</h2>
         <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
@@ -128,7 +117,7 @@ export default function AdminDashboard({ onLogout }) {
         <button className="download-btn" onClick={downloadAllCardsAsZip}>
           Download All Cards (ZIP)
         </button>
-        &nbsp; &nbsp;
+        &nbsp;&nbsp;&nbsp;
         <button className="download-btn" onClick={exportToExcel}>
           Export to Excel
         </button>
@@ -181,11 +170,11 @@ export default function AdminDashboard({ onLogout }) {
                 </div>
                 <div className="card-right">
                   <h3>Football ID Pass</h3>
-                  <p><strong>Name:</strong> {selectedUser.name}</p>
-                  <p><strong>Phone:</strong> {selectedUser.phone}</p>
-                  <p><strong>Age:</strong> {selectedUser.age}</p>
-                  <p><strong>ID:</strong> {selectedUser.regId}</p>
-                  <h2>Presented by Mass Kannur</h2>
+                  <p><strong>Name:</strong> {user.name}</p>
+                  <p><strong>Phone:</strong> {user.phone}</p>
+                  <p><strong>Age:</strong> {user.age}</p>
+                  <p><strong>ID:</strong> {user.regId}</p>
+                  <h2>Present by Mass Kannur</h2>
                 </div>
               </div>
             </li>
@@ -206,7 +195,7 @@ export default function AdminDashboard({ onLogout }) {
               <p><strong>Phone:</strong> {selectedUser.phone}</p>
               <p><strong>Age:</strong> {selectedUser.age}</p>
               <p><strong>ID:</strong> {selectedUser.regId}</p>
-              <h2>Presented by Mass Kannur</h2>
+              <h2>Present by Mass Kannur</h2>
             </div>
           </div>
           <div style={{ marginTop: "20px" }}>

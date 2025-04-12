@@ -86,7 +86,7 @@ button:hover {
 }
 
 .card-photo img.id-photo {
-  width: 80px;
+  width: 100px;
   height: 100px;
   object-fit: cover;
   border-radius: 8px;
@@ -127,7 +127,7 @@ button:hover {
 
 /* Optional: center everything better for portrait */
 .card-left img.id-photo {
-  width: 110px;
+  width: 115px;
   height: 150px;
   object-fit: cover;
   border-radius: 8px;
@@ -136,16 +136,16 @@ button:hover {
 }
 
 .card-right h3 {
-  margin: 5px 0;
+  margin: 1cap 0;
   font-size: 16px;
   color: #03dac5;
 }
-
 .card-right h2 {
-  margin: 13px 0;
+  margin: 10px 0;
   font-size: 12px;
   color: #03dac5;
 }
+
 
 .card-right p {
   margin: 2px 0;

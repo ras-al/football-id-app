@@ -18,7 +18,7 @@ function App() {
       <div className="main-view">
         {isAdmin ? (
           loggedIn ? (
-            <AdminDashboard onLogout={() => setLoggedIn(false)} />
+            <AdminDashboard setLoggedIn={setLoggedIn} />
           ) : (
             <AdminLogin onLogin={() => setLoggedIn(true)} />
           )
