@@ -12,15 +12,13 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
-import { useNavigate } from "react-router-dom";
 import "../index.css";
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ onLogout }) {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUsers();
@@ -39,7 +37,7 @@ export default function AdminDashboard() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate('/AdminLogin.jsx');
+      onLogout(); // 👈 This sets loggedIn to false in App.jsx
     } catch (error) {
       console.error("Logout failed:", error.message);
     }
@@ -74,11 +72,11 @@ export default function AdminDashboard() {
 
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({
-        orientation: "landscape",
+        orientation: "portrait",
         unit: "mm",
-        format: [85.6, 54],
+        format: [54,85.6],
       });
-      pdf.addImage(imgData, "PNG", 0, 0, 85.6, 54);
+      pdf.addImage(imgData, "PNG", 0, 0, 54,85.6);
       const pdfBlob = pdf.output("blob");
 
       zip.file(`${user.name}_${user.regId}.pdf`, pdfBlob);
@@ -105,6 +103,7 @@ export default function AdminDashboard() {
   return (
     <div className="admin-container">
       <div className="admin-header">
+        
         <h2>Registered Participants</h2>
         <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
@@ -119,6 +118,7 @@ export default function AdminDashboard() {
         <button className="download-btn" onClick={downloadAllCardsAsZip}>
           Download All Cards (ZIP)
         </button>
+        &nbsp; &nbsp;
         <button className="download-btn" onClick={exportToExcel}>
           Export to Excel
         </button>
@@ -170,11 +170,12 @@ export default function AdminDashboard() {
                   <img src={user.image} alt="User" className="id-photo" />
                 </div>
                 <div className="card-right">
-                  <h3>⚽ Football ID Pass</h3>
-                  <p><strong>Name:</strong> {user.name}</p>
-                  <p><strong>Phone:</strong> {user.phone}</p>
-                  <p><strong>Age:</strong> {user.age}</p>
-                  <p><strong>ID:</strong> {user.regId}</p>
+                  <h3>Football ID Pass</h3>
+                  <p><strong>Name:</strong> {selectedUser.name}</p>
+                  <p><strong>Phone:</strong> {selectedUser.phone}</p>
+                  <p><strong>Age:</strong> {selectedUser.age}</p>
+                  <p><strong>ID:</strong> {selectedUser.regId}</p>
+                  <h2>Presented by Mass Kannur</h2>
                 </div>
               </div>
             </li>
@@ -190,17 +191,18 @@ export default function AdminDashboard() {
               <img src={selectedUser.image} alt="User" className="id-photo" />
             </div>
             <div className="card-right">
-              <h3>⚽ Football ID Pass</h3>
+              <h3>Football ID Pass</h3>
               <p><strong>Name:</strong> {selectedUser.name}</p>
               <p><strong>Phone:</strong> {selectedUser.phone}</p>
               <p><strong>Age:</strong> {selectedUser.age}</p>
               <p><strong>ID:</strong> {selectedUser.regId}</p>
+              <h2>Presented by Mass Kannur</h2>
             </div>
           </div>
           <div style={{ marginTop: "20px" }}>
             <h4>Payment Screenshot:</h4>
             {selectedUser.paymentSS ? (
-              <img src={selectedUser.paymentSS} alt="Payment SS" style={{ maxWidth: "300px" }} />
+              <img src={selectedUser.paymentSS} alt="Payment SS" style={{ maxWidth: "200px" }} />
             ) : (
               <p>No screenshot uploaded.</p>
             )}

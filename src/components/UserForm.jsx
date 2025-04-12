@@ -21,10 +21,22 @@ export default function UserForm() {
   }, []);
 
   const generateUniqueRegId = async () => {
-    const snapshot = await getDocs(collection(db, "users"));
-    const regNumber = String(snapshot.size + 1).padStart(6, "0");
+    let regNumber;
+    let isUnique = false;
+  
+    // Keep generating a new random number until it is unique
+    while (!isUnique) {
+      // Generate a random six-digit number
+      regNumber = Math.floor(100000 + Math.random() * 900000).toString();
+  
+      // Check if this number already exists in the database
+      const snapshot = await getDocs(collection(db, "users"));
+      isUnique = !snapshot.docs.some(doc => doc.data().regId === regNumber);
+    }
+  
     setRegId(regNumber);
   };
+  
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -73,11 +85,11 @@ export default function UserForm() {
     html2canvas(card).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({
-        orientation: "landscape",
+        orientation: "Potrait",
         unit: "mm",
-        format: [54, 85.6],
+        format: [85.6,54],
       });
-      pdf.addImage(imgData, "PNG", 0, 0, 85.6, 54);
+      pdf.addImage(imgData, "PNG", 0, 0, 54, 85.6);
       pdf.save(`${name}_card.pdf`);
     });
   };
@@ -100,7 +112,7 @@ export default function UserForm() {
         {step === 2 && (
           <>
             <p><strong>Scan the QR below to pay ₹100:</strong></p>
-            <img src="/qr-code.png" alt="QR for payment" style={{ width: "200px" }} />
+            <img src="/paymentQR.jpeg" alt="QR for payment" style={{ width: "200px" }} />
             <br /><br />
             <label>Upload Payment Screenshot:</label>
             <input type="file" accept="image/*" onChange={handlePaymentSSUpload} />
@@ -115,11 +127,12 @@ export default function UserForm() {
               <img src={image} alt="User" className="id-photo" />
             </div>
             <div className="card-right">
-              <h3>⚽ Football ID Pass</h3>
+              <h3>Football ID Pass</h3>
               <p><strong>Name:</strong> {name}</p>
               <p><strong>Phone:</strong> {phone}</p>
               <p><strong>Age:</strong> {age}</p>
               <p><strong>ID:</strong> {regId}</p>
+              <h2>Present by Mass Kannur</h2>
             </div>
           </div>
         )}
