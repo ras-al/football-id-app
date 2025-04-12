@@ -97,7 +97,7 @@ export default function UserForm() {
   return (
     <div className="form-container">
       <div className="form-box">
-        <h2>Player Registration</h2>
+        <h2>Event Registration</h2>
 
         {step === 1 && (
           <form onSubmit={(e) => { e.preventDefault(); setStep(2); }}>
